@@ -3,7 +3,7 @@
 import os
 import sys
 
-
+# pylint: disable=missing-function-docstring
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_project.settings')

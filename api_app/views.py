@@ -1,3 +1,36 @@
+from rest_framework import generics, status
+from .models import Tarea
+from .serializers import TareaSerializer
+class TareaByPersona(generics.ListAPIView):
+    serializer_class = TareaSerializer
+
+    def get_queryset(self):
+        documento = self.kwargs.get('documento')
+        return Tarea.objects.filter(persona__documento=documento)
+
+class TareaByRangoFechas(generics.ListAPIView):
+    serializer_class = TareaSerializer
+
+    def get_queryset(self):
+        fecha_inicio = self.kwargs.get('fecha_inicio')
+        fecha_fin = self.kwargs.get('fecha_fin')
+        return Tarea.objects.filter(fecha_limite__range=[fecha_inicio, fecha_fin])
+
+class TareaByFecha(generics.ListAPIView):
+    serializer_class = TareaSerializer
+
+    def get_queryset(self):
+        fecha = self.kwargs.get('fecha')
+        return Tarea.objects.filter(fecha_limite=fecha)
+
+
+
+
+# Vista para listar tareas
+class TareaList(generics.ListAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
+# Crear personas
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -17,6 +50,7 @@ class PersonaList(generics.ListCreateAPIView):
         if not personas:
             raise NotFound('No se encontraron personas. ')
         return Response({'success': True, 'detail': 'Listado de personas.', 'data': serializer.data}, status=status.HTTP_200_OK)
+
 # Crear personas
 class CrearPersona(generics.CreateAPIView):
     queryset = Persona.objects.all()
@@ -47,18 +81,35 @@ class ActualizarPersona(generics.UpdateAPIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response({'success': True, 'detail': 'Persona actualizada correctamente. ', 'data': serializer.data}, status=status.HTTP_200_OK)
-        # Buscar persona por documento
-        class PersonaByDocumento(generics.ListAPIViwe):
-            serializer_class = PersonaSerializer
 
-            def get(self, request, documento):
-                persona = Persona.objects.filter(documento=documento).first()
-                if not persona:
-                    raise NotFound('No se encontro una persona con ese documento.')
-                serializer = PersonaSerializer(persona)
-                return Response({'success': True, 'datail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
-            
+# Buscar persona por documento
+class PersonaByDocumento(generics.ListAPIView):
+    serializer_class = PersonaSerializer
 
+    def get(self, request, documento):
+        persona = Persona.objects.filter(documento=documento).first()
+        if not persona:
+            raise NotFound('No se encontro una persona con ese documento.')
+        serializer = PersonaSerializer(persona)
+        return Response({'success': True, 'detail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
 
+# Obtener persona por ID
+class PersonaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Persona.objects.all()
+    serializer_class = PersonaSerializer
 
-      
+# Crear Tareas
+class CrearTarea(generics.CreateAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
+    # Vista para crear tareas
+    def post(self, request):
+        serializer = TareaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'success': True, 'detail': 'Tarea creada correctamente.', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+
+# Detalle, actualización y eliminación de tareas
+class TareaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
