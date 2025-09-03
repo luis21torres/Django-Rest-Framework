@@ -1,3 +1,13 @@
+from rest_framework import generics, status
+from .models import Tarea
+from .serializers import TareaSerializer
+
+
+
+# Vista para listar tareas
+class TareaList(generics.ListAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
 # Crear personas
 from django.shortcuts import render
 from rest_framework import generics, status
@@ -62,6 +72,22 @@ class PersonaByDocumento(generics.ListAPIView):
         return Response({'success': True, 'detail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
 
 # Obtener persona por ID
-class PersonaDetail(generics.RetrieveUpdateAPIView):
+class PersonaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Persona.objects.all()
     serializer_class = PersonaSerializer
+
+# Crear Tareas
+class CrearTarea(generics.CreateAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
+    # Vista para crear tareas
+    def post(self, request):
+        serializer = TareaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'success': True, 'detail': 'Tarea creada correctamente.', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+
+# Detalle, actualización y eliminación de tareas
+class TareaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tarea.objects.all()
+    serializer_class = TareaSerializer
