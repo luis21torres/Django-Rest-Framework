@@ -1,3 +1,4 @@
+# Crear personas
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -17,6 +18,7 @@ class PersonaList(generics.ListCreateAPIView):
         if not personas:
             raise NotFound('No se encontraron personas. ')
         return Response({'success': True, 'detail': 'Listado de personas.', 'data': serializer.data}, status=status.HTTP_200_OK)
+
 # Crear personas
 class CrearPersona(generics.CreateAPIView):
     queryset = Persona.objects.all()
@@ -48,7 +50,6 @@ class ActualizarPersona(generics.UpdateAPIView):
             serializer.save()
             return Response({'success': True, 'detail': 'Persona actualizada correctamente. ', 'data': serializer.data}, status=status.HTTP_200_OK)
 
-
 # Buscar persona por documento
 class PersonaByDocumento(generics.ListAPIView):
     serializer_class = PersonaSerializer
@@ -58,4 +59,9 @@ class PersonaByDocumento(generics.ListAPIView):
         if not persona:
             raise NotFound('No se encontro una persona con ese documento.')
         serializer = PersonaSerializer(persona)
-        return Response({'success': True, 'datail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
+        return Response({'success': True, 'detail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
+
+# Obtener persona por ID
+class PersonaDetail(generics.RetrieveAPIView):
+    queryset = Persona.objects.all()
+    serializer_class = PersonaSerializer

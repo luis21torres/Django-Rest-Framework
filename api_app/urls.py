@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    PersonaList, PersonaByDocumento, ActualizarPersona, 
+    PersonaDetail, PersonaList, PersonaByDocumento, ActualizarPersona, 
     #TareaList, TareaByFecha, TareaByRangoFechas, TareaByPersona
 )
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('personas/crear/', PersonaList.as_view(), name='persona-crear'),
     path('personas/actualizar/<int:pk>/', ActualizarPersona.as_view(), name='persona-actualizar'),
     path('personas/documento/<str:documento>/', PersonaByDocumento.as_view(), name='persona-por-documento'),
+    path('personas/<int:pk>/', PersonaDetail.as_view(), name='persona-detail'),
 ]
