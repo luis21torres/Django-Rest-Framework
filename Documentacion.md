@@ -1,1 +1,2 @@
-Esto fue creado para hacer el cambio en mi rama 
+https://bradleyballen.postman.co/workspace/Bradley-Ballen's-Workspace~400d0b52-3971-457e-8cf8-ba2322ce92dc/collection/43500373-5bb69448-a58c-48c7-bae4-dc93f72a8c69?action=share&source=copy-link&creator=48147312
+en este link se encuentra el trabajo en postman con la documentacion correspondiente
