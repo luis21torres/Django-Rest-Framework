@@ -1,6 +1,28 @@
 from rest_framework import generics, status
 from .models import Tarea
 from .serializers import TareaSerializer
+class TareaByPersona(generics.ListAPIView):
+    serializer_class = TareaSerializer
+
+    def get_queryset(self):
+        documento = self.kwargs.get('documento')
+        return Tarea.objects.filter(persona__documento=documento)
+
+class TareaByRangoFechas(generics.ListAPIView):
+    serializer_class = TareaSerializer
+
+    def get_queryset(self):
+        fecha_inicio = self.kwargs.get('fecha_inicio')
+        fecha_fin = self.kwargs.get('fecha_fin')
+        return Tarea.objects.filter(fecha_limite__range=[fecha_inicio, fecha_fin])
+
+class TareaByFecha(generics.ListAPIView):
+    serializer_class = TareaSerializer
+
+    def get_queryset(self):
+        fecha = self.kwargs.get('fecha')
+        return Tarea.objects.filter(fecha_limite=fecha)
+
 
 
 
