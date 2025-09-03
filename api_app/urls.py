@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     PersonaList, PersonaByDocumento, ActualizarPersona, 
-    TareaList, TareaByFecha, TareaByRangoFechas, TareaByPersona
+    #TareaList, TareaByFecha, TareaByRangoFechas, TareaByPersona
 )
 
 

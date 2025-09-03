@@ -50,7 +50,7 @@ class ActualizarPersona(generics.UpdateAPIView):
 
 
 # Buscar persona por documento
-class PersonaByDocumento(generics.ListAPIViwe):
+class PersonaByDocumento(generics.ListAPIView):
     serializer_class = PersonaSerializer
 
     def get(self, request, documento):
@@ -59,4 +59,3 @@ class PersonaByDocumento(generics.ListAPIViwe):
             raise NotFound('No se encontro una persona con ese documento.')
         serializer = PersonaSerializer(persona)
         return Response({'success': True, 'datail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
-            
