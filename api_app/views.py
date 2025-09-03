@@ -58,7 +58,3 @@ class ActualizarPersona(generics.UpdateAPIView):
                 serializer = PersonaSerializer(persona)
                 return Response({'success': True, 'datail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
             
-
-
-
-      
