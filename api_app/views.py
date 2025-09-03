@@ -47,14 +47,16 @@ class ActualizarPersona(generics.UpdateAPIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response({'success': True, 'detail': 'Persona actualizada correctamente. ', 'data': serializer.data}, status=status.HTTP_200_OK)
-        # Buscar persona por documento
-        class PersonaByDocumento(generics.ListAPIViwe):
-            serializer_class = PersonaSerializer
 
-            def get(self, request, documento):
-                persona = Persona.objects.filter(documento=documento).first()
-                if not persona:
-                    raise NotFound('No se encontro una persona con ese documento.')
-                serializer = PersonaSerializer(persona)
-                return Response({'success': True, 'datail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
+
+# Buscar persona por documento
+class PersonaByDocumento(generics.ListAPIViwe):
+    serializer_class = PersonaSerializer
+
+    def get(self, request, documento):
+        persona = Persona.objects.filter(documento=documento).first()
+        if not persona:
+            raise NotFound('No se encontro una persona con ese documento.')
+        serializer = PersonaSerializer(persona)
+        return Response({'success': True, 'datail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
             
