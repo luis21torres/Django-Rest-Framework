@@ -62,6 +62,6 @@ class PersonaByDocumento(generics.ListAPIView):
         return Response({'success': True, 'detail': 'Persona encontrada.', 'data': serializer.data}, status=status.HTTP_200_OK)
 
 # Obtener persona por ID
-class PersonaDetail(generics.RetrieveAPIView):
+class PersonaDetail(generics.RetrieveUpdateAPIView):
     queryset = Persona.objects.all()
     serializer_class = PersonaSerializer
